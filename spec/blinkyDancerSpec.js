@@ -1,3 +1,5 @@
+/* global $ */
+
 describe("blinkyDancer", function() {
 
   var blinkyDancer;
@@ -6,7 +8,7 @@ describe("blinkyDancer", function() {
 
   beforeEach(function() {
     clock = sinon.useFakeTimers();
-    blinkyDancer = makeBlinkyDancer(10, 20, timeBetweenSteps);
+    blinkyDancer = new BlinkyDancer(10, 20, timeBetweenSteps);
   });
 
   it("should have a jQuery $node object", function(){
@@ -21,6 +23,7 @@ describe("blinkyDancer", function() {
 
   describe("dance", function(){
     it("should call step at least once per second", function(){
+      console.log('call step at least once');
       sinon.spy(blinkyDancer, "step");
       expect(blinkyDancer.step.callCount).to.be.equal(0);
       clock.tick(timeBetweenSteps);
