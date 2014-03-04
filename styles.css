@@ -21,17 +21,24 @@ body, a:link, a:visited, a:active{
   background-color: #777;
 }
 .dancer{
-  border:10px solid red;
+  border: none;
   border-radius:10px;
+  background-color: red;
   position:absolute;
 }
 
 .moving-dancer{
   border-color: blue;
+  background: url("img/lady.gif");
+  background-size: 100% 100%;
 }
 .bouncy-dancer{
   border-color: yellow;
+  background: url("img/penguin.gif");
+  background-size: 100% 100%;
 }
 .blinky-dancer{
   border-color: green;
+  background: url("img/banana.gif");
+  background-size: 100% 100%;
 }
