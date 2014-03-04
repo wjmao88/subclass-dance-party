@@ -33,7 +33,7 @@ describe("BouncyDancer", function() {
       expect(bouncyDancer.step.callCount).to.be.equal(1);
 
       clock.tick(timeBetweenSteps);
-      expect(bouncyDancer.step.callCount).to.be.equal(2);
+      expect(bouncyDancer.step.callCount).to.be.equal(101);
     });
   });
 });
