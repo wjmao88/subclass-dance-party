@@ -1,4 +1,5 @@
 /*global $ */
+
 $(document).ready(function(){
   window.dancers = [];
 
@@ -19,6 +20,7 @@ $(document).ready(function(){
     var dancerClassName = $(this).data('dancer-maker-function-name');
 
     // get the maker function for the kind of dancer we're supposed to make
+
     var DancerClass = window[dancerClassName];
 
     // make a dancer with a random position

@@ -1,4 +1,5 @@
 /* global describe, beforeEach, it, sinon, expect, BlinkyDancer, jQuery */
+
 describe("blinkyDancer", function() {
 
   var blinkyDancer;
@@ -22,6 +23,7 @@ describe("blinkyDancer", function() {
 
   describe("dance", function(){
     it("should call step at least once per second", function(){
+      console.log('call step at least once');
       sinon.spy(blinkyDancer, "step");
       expect(blinkyDancer.step.callCount).to.be.equal(0);
       clock.tick(timeBetweenSteps);
