@@ -18,9 +18,9 @@ describe("movingDancer", function() {
     movingDancer.setPosition(10, 20);
     expect(movingDancer.top).to.be.equal(10);
     expect(movingDancer.left).to.be.equal(20);
-    movingDancer.move({left: 100, top: 100});
-    expect(movingDancer.top).to.equal(1010);
-    expect(movingDancer.left).to.equal(1020);
+    movingDancer.move({left: 10, top: 10});
+    expect(movingDancer.top).to.equal(110);
+    expect(movingDancer.left).to.equal(120);
   });
 
   describe("dance", function(){

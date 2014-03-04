@@ -10,9 +10,11 @@ var $random = {
     return Math.floor(Math.random() * (Math.abs(to - from)+1)) + from;
   },
   direction: function(){
+    var num = Math.random();
+    var angle = Math.random() * 2 * (Math.PI);
     return {
-      top: this.integer(-1, 1),
-      left: this.integer(-1, 1)
+      top: Math.sin(angle) * num,
+      left: Math.cos(angle) * num
     };
   },
 };

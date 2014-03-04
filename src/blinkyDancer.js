@@ -1,14 +1,14 @@
-/* global MovingDancer */
+/* global Dancer */
 /* exported BlinkyDancer */
 var BlinkyDancer = function(){
-  MovingDancer.apply(this, arguments);
-  this.$node.addClass('moving-dancer');
+  Dancer.apply(this, arguments);
+  this.$node.addClass('blinky-dancer');
 };
 
-BlinkyDancer.prototype = Object.create(MovingDancer.prototype);
+BlinkyDancer.prototype = Object.create(Dancer.prototype);
 BlinkyDancer.prototype.constructor = BlinkyDancer;
 
 BlinkyDancer.prototype.step = function(){
   this.$node.toggle();
-  MovingDancer.prototype.step.apply(this);
+  Dancer.prototype.step.apply(this);
 };
