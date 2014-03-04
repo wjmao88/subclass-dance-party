@@ -1,8 +1,9 @@
 /* global $random, Dancer */
 /* exported MovingDancer */
 var MovingDancer = function(top, left, timeBetweenSteps, stepDistance){
-  this.stepDistance = stepDistance || 5;
+  this.stepDistance = stepDistance || 50;
   Dancer.apply(this, arguments);
+  this.$node.addClass('moving-dancer');
 };
 
 MovingDancer.prototype = Object.create(Dancer.prototype);

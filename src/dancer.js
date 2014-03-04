@@ -1,11 +1,10 @@
 /* global $ */
 /* exported Dancer */
 var Dancer = function(top, left, timeBetweenSteps){
-  this.$node = $('<span class="Dancer.prototype"></span>');
+  this.$node = $('<span class="dancer"></span>');
   this.top = top;
   this.left = left;
   this.timeBetweenSteps = timeBetweenSteps;
-
   this.setPosition(top, left);
   this.step();
 };
