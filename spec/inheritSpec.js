@@ -1,39 +1,107 @@
-/* global describe, beforeEach, it, sinon, expect, MovingDancer, jQuery */
-describe("movingDancer", function() {
+/* global describe, beforeEach, it, sinon, expect, inherit, jQuery */
+describe("inherit", function() {
 
-  var movingDancer;
-  var timeBetweenSteps = 100;
-  var clock;
+  var Parent;
+  var Child;
+
+  //makeSibling
+  //extends
+  //superConstruct
+  //include
+  //combine
+  //decorate
 
   beforeEach(function() {
-    clock = sinon.useFakeTimers();
-    movingDancer = new MovingDancer(10, 20, timeBetweenSteps, 10);
+    Parent = function(value){
+      this.value = value;
+      this.default = 'parent';
+      this.parent = true;
+    };
+    Parent.prototype.shout = function(){
+      return 'parent shout';
+    };
   });
 
-  it("should have a jQuery $node object", function(){
-    expect(movingDancer.$node).to.be.an.instanceof(jQuery);
+  it("'extends' should make a child class that extends a parent class", function(){
+    Child = function(value){
+      inherit.superConstruct(this, Child, arguments);
+      this.default = 'child';
+      this.child = true;
+    };
+    inherit.extends(Child, Parent);
+    Child.prototype.shout = function(){
+      return 'child shout';
+    };
+    var child = new Child(4);
+    expect(child.value).to.equal(4);
+    expect(child.parent).to.equal(true);
+    expect(child.default).to.equal('child');
+    expect(child.shout()).to.equal('child shout');
   });
 
-  it("should change position", function() {
-    movingDancer.setPosition(10, 20);
-    expect(movingDancer.top).to.be.equal(10);
-    expect(movingDancer.left).to.be.equal(20);
-    movingDancer.move({left: 10, top: 10});
-    expect(movingDancer.top).to.equal(110);
-    expect(movingDancer.left).to.equal(120);
+  it("'makeSibling' should make a copy of an instance's own prototype when instance is created in its parent class", function(){
+    Child = function(value){
+      inherit.superConstruct(this, Child, arguments);
+      this.default = 'child';
+      this.child = true;
+    };
+    inherit.extends(Child, Parent);
+    Child.prototype.shout = function(){
+      return 'child shout';
+    };
+    Parent.prototype.makeCopy = function(){
+      return inherit.makeSibling(this);
+    };
+    var child = new Child(4);
+    var anotherChild = child.makeCopy();
+    expect(anotherChild.child).to.equal(true);
   });
 
-  describe("dance", function(){
-    it("should call step at least once per second", function(){
-      sinon.spy(movingDancer, "step");
-      expect(movingDancer.step.callCount).to.be.equal(0);
-      clock.tick(timeBetweenSteps);
-      //clock.tick(timeBetweenSteps); // Why do we have a 2nd call?
+  it("'include' should add additional properties to the existing pseudoclass", function(){
+    var AngryParent = {
+      default: 'angryParent',
+      angryShout: function(){
+        return 'angry shout';
+      },
+      shout: function(){
+        return 'angry shout overwriting';
+      }
+    };
+    inherit.include(Parent, AngryParent);
 
-      expect(movingDancer.step.callCount).to.be.equal(1);
+    var parent = new Parent(4);
+    expect(parent.angryShout()).to.equal('angry shout');
+    expect(parent.shout()).to.equal('angry shout overwriting');
+  });
 
-      clock.tick(timeBetweenSteps);
-      expect(movingDancer.step.callCount).to.be.equal(2);
-    });
+  it("'decorate' should augment the existing pseudoclass functions", function(){
+    var AngryParent = {
+      default: 'angryParent',
+      shout: function(func){
+        return function(){
+          return func() + ', idiot!';
+        };
+      }
+    };
+    inherit.decorate(Parent, AngryParent);
+
+    var parent = new Parent(4);
+    expect(parent.shout()).to.equal('parent shout, idiot!');
+  });
+
+  it("'combine' should return a new pseudoclass and decorate with additional functionality", function(){
+    var AngryParent = {
+      default: 'angryParent',
+      shout: function(func){
+        return function(){
+          return func() + ', idiot!';
+        };
+      }
+    };
+    var NewParent = inherit.combine(Parent, AngryParent);
+
+    var parent = new NewParent(4);
+    expect(parent.shout()).to.equal('parent shout, idiot!');
+    expect(parent.parent).to.equal(true);
   });
 });

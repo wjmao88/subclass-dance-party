@@ -1,15 +1,6 @@
 //call by pseudoclass instance
 var inherit = {}; //singleton
 
-inherit.makeSibling = function(baseObj){
-  var Constructor = baseObj.constructor;
-  // var prototype = Constructor.prototype;
-  // var result = ; // object literal notation equivalent to var result = new Object();
-
-  var args = Array.prototype.slice.call(arguments, 1);
-  return new Constructor(args);
-};
-
 //call following functions with Constructor
 //
 //extends==================================================
@@ -23,6 +14,18 @@ inherit.extends = function(ChildClass, ParentClass){
   ChildClass.prototype = Object.create(ParentClass.prototype);
   ChildClass.prototype.constructor = ChildClass;
   ChildClass.prototype.superPrototype = ParentClass.prototype;
+};
+
+//copy an instance of an object
+//makeSibling==============================================
+//
+inherit.makeSibling = function(baseObj){
+  var Constructor = baseObj.constructor;
+  // var prototype = Constructor.prototype;
+  // var result = ; // object literal notation equivalent to var result = new Object();
+
+  var args = Array.prototype.slice.call(arguments, 1);
+  return new Constructor(args);
 };
 
 //apply superconstructor arguments to new instance
@@ -50,6 +53,22 @@ inherit.include = function(TargetClass, obj){
   }
 };
 
+//decorate=================================================
+//only decorate the obj's own property and methods
+//expect the decorating function's methods and properties
+//methods return a new function including
+//the old functionality and the new functionality
+//properties sets or changes the original's property
+
+inherit.decorate = function(BaseClass, obj){
+  var keys = Object.keys(obj);
+  for (var k=0; k<keys.length; k++){
+    if (obj.hasOwnProperty(keys[k]) && typeof obj[keys[k]] === 'function' && typeof BaseClass.prototype[keys[k]] === 'function'){
+      BaseClass.prototype[keys[k]] = obj[keys[k]](BaseClass.prototype[keys[k]]);
+    }
+  }
+};
+
 //combine==================================================
 //use to create a new class that does not yet have a defined constructor
 //e
@@ -65,20 +84,4 @@ inherit.combine = function(ParentClass){
     inherit.decorate(ResultClass, args[i]);
   }
   return ResultClass;
-};
-
-//decorate=================================================
-//only decorate the obj's own property and methods
-//expect the decorating function's methods and properties
-//methods return a new function including
-//the old functionality and the new functionality
-//properties sets or changes the original's property
-
-inherit.decorate = function(BaseClass, obj){
-  var keys = Object.keys(obj);
-  for (var k=0; k<keys.length; k++){
-    if (obj.hasOwnProperty(keys[k])){
-      BaseClass.prototype[keys[k]] = obj[keys[k]](BaseClass.prototype[keys[k]]);
-    }
-  }
 };

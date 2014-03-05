@@ -18,7 +18,6 @@ describe("movingBlinky", function() {
 
   it("should have a step function that makes its node blink", function() {
 
-    console.log(movingBlinky.step);
     sinon.spy(movingBlinky.$node, 'toggle');
 
     movingBlinky.step();
@@ -28,7 +27,6 @@ describe("movingBlinky", function() {
 
   describe("dance", function(){
     it("should call step at least once per second", function(){
-      console.log('call step at least once');
       sinon.spy(movingBlinky, "step");
       expect(movingBlinky.step.callCount).to.be.equal(0);
       clock.tick(timeBetweenSteps);
