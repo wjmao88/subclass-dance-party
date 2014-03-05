@@ -28,3 +28,8 @@ Dancer.prototype.setPosition = function(top, left){
   };
   this.$node.css(styleSettings);
 };
+
+Dancer.prototype.callFriend = function(){
+  var Constructor = this.constructor;
+  return new Constructor(arguments);
+};
