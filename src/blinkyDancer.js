@@ -1,4 +1,3 @@
-/* global Dancer */
 /* exported BlinkyDancer */
 var BlinkyDancer = {};
 BlinkyDancer.step = function(func){

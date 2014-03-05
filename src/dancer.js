@@ -1,4 +1,4 @@
-/* global $ */
+/* global $, inherit */
 /* exported Dancer */
 var Dancer = function(top, left, timeBetweenSteps){
   this.$node = $('<span class="dancer"></span>');
@@ -30,6 +30,5 @@ Dancer.prototype.setPosition = function(top, left){
 };
 
 Dancer.prototype.callFriend = function(){
-  var Constructor = this.constructor;
-  return new Constructor(arguments);
+  return inherit.makeSibling(this);
 };

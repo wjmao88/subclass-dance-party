@@ -1,13 +1,17 @@
-/* global $random, Dancer */
+/* global $random, Dancer, inherit */
 /* exported MovingDancer */
 var MovingDancer = function(top, left, timeBetweenSteps, stepDistance){
   this.stepDistance = stepDistance || 50;
-  Dancer.apply(this, arguments);
+
+  //flexible super protoype inheritance
+  inherit.superConstruct(this, MovingDancer, arguments);
   this.$node.addClass('moving-dancer');
 };
 
-MovingDancer.prototype = Object.create(Dancer.prototype);
-MovingDancer.prototype.constructor = MovingDancer;
+inherit.extends(MovingDancer, Dancer);
+
+// MovingDancer.prototype = Object.create(Dancer.prototype);
+// MovingDancer.prototype.constructor = MovingDancer;
 
 MovingDancer.prototype.step = function(){
   this.move($random.direction());

@@ -2,7 +2,7 @@
 describe("movingDancer", function() {
 
   var movingDancer;
-  var timeBetweenSteps = 10000;
+  var timeBetweenSteps = 100;
   var clock;
 
   beforeEach(function() {
@@ -23,16 +23,17 @@ describe("movingDancer", function() {
     expect(movingDancer.left).to.equal(120);
   });
 
-  // describe("dance", function(){
-  //   it("should call step at least once per second", function(){
-  //     sinon.spy(movingDancer, "step");
-  //     expect(movingDancer.step.callCount).to.be.equal(0);
-  //     debugger;
-  //     clock.tick(timeBetweenSteps);
-  //     //clock.tick(timeBetweenSteps); // Why do we have a 2nd call?
-  //     expect(movingDancer.step.callCount).to.be.equal(1);
-  //     clock.tick(timeBetweenSteps);
-  //     expect(movingDancer.step.callCount).to.be.equal(2);
-  //   });
-  // });
+  describe("dance", function(){
+    it("should call step at least once per second", function(){
+      sinon.spy(movingDancer, "step");
+      expect(movingDancer.step.callCount).to.be.equal(0);
+      clock.tick(timeBetweenSteps);
+      //clock.tick(timeBetweenSteps); // Why do we have a 2nd call?
+
+      expect(movingDancer.step.callCount).to.be.equal(1);
+
+      clock.tick(timeBetweenSteps);
+      expect(movingDancer.step.callCount).to.be.equal(2);
+    });
+  });
 });

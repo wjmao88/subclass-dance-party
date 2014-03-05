@@ -1,7 +1,8 @@
-/* global MovingDancer */
+/* global MovingDancer, inherit */
 /* exported BouncyDancer */
 var BouncyDancer = function(){
-  MovingDancer.apply(this, arguments);
+  //flexible super protoype inheritance
+  inherit.superConstruct(this, BouncyDancer, arguments);
   this.$node.addClass('moving-dancer');
   //bouncy dancer should have small step size
   this.stepDistance = this.stepDistance/100;
@@ -9,8 +10,7 @@ var BouncyDancer = function(){
   this.$node.addClass('bouncy-dancer');
 };
 
-BouncyDancer.prototype = Object.create(MovingDancer.prototype);
-BouncyDancer.prototype.constructor = BouncyDancer;
+inherit.extends(BouncyDancer, MovingDancer);
 
 BouncyDancer.prototype.move = function(direction){
   var topChange = direction.top * this.stepDistance;

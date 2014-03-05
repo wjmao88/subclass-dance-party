@@ -1,0 +1,2 @@
+var MovingBlinky = inherit.combine(MovingDancer, BlinkyDancer);
+var m = new MovingBlinky(1,2,10000);

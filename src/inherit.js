@@ -3,11 +3,11 @@ var inherit = {}; //singleton
 
 inherit.makeSibling = function(baseObj){
   var Constructor = baseObj.constructor;
-  var result = {}; // object literal notation equivalent to var result = new Object();
+  // var prototype = Constructor.prototype;
+  // var result = ; // object literal notation equivalent to var result = new Object();
+
   var args = Array.prototype.slice.call(arguments, 1);
-  console.log(Constructor);
-  Constructor.apply(result, args);
-  return result;
+  return new Constructor(args);
 };
 
 //call following functions with Constructor
@@ -25,6 +25,14 @@ inherit.extends = function(ChildClass, ParentClass){
   ChildClass.prototype.superPrototype = ParentClass.prototype;
 };
 
+//apply superconstructor arguments to new instance
+//expect 3rd parameter, args, which is an array of arguments
+//superConstruct===========================================
+
+inherit.superConstruct = function(instance, Class, args){
+  Class.prototype.superPrototype.constructor.apply(instance, args);
+};
+
 //include==================================================
 //include methods from an object
 //does not include inherited property and methods of the object
@@ -34,12 +42,29 @@ inherit.extends = function(ChildClass, ParentClass){
 
 inherit.include = function(TargetClass, obj){
   var keys = Object.keys(obj);
-  var methods = Array.prototype.slice.call(arguments, 1);
-  for (var k=0; k<keys; k++){
+  var methods = Array.prototype.slice.call(arguments, 2);
+  for (var k=0; k<keys.length; k++){
     if ( (methods.length === 0 || methods.indexOf(keys[k]) > -1) && obj.hasOwnProperty(keys[k])){
       TargetClass.prototype[keys[k]] = obj[keys[k]];
     }
   }
+};
+
+//combine==================================================
+//use to create a new class that does not yet have a defined constructor
+//e
+inherit.combine = function(ParentClass){
+  var ResultClass = function(){
+    this.superPrototype.constructor.apply(this, arguments);
+  };
+  inherit.extends(ResultClass, ParentClass);
+
+  var args = Array.prototype.slice.call(arguments, 1);
+
+  for(var i = 0; i < args.length; i++){
+    inherit.decorate(ResultClass, args[i]);
+  }
+  return ResultClass;
 };
 
 //decorate=================================================
@@ -51,7 +76,7 @@ inherit.include = function(TargetClass, obj){
 
 inherit.decorate = function(BaseClass, obj){
   var keys = Object.keys(obj);
-  for (var k=0; k<keys; k++){
+  for (var k=0; k<keys.length; k++){
     if (obj.hasOwnProperty(keys[k])){
       BaseClass.prototype[keys[k]] = obj[keys[k]](BaseClass.prototype[keys[k]]);
     }
